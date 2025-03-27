@@ -43,10 +43,10 @@ export const allNav = [
     },
     {
         id : 6,
-        title : 'Deactivate Sellers',
+        title : 'Deactive Sellers',
         icon : <FaUserTimes/>,
         role : 'admin',
-        path : '/admin/dashboard/deactivate-sellers'
+        path : '/admin/dashboard/deactive-sellers'
     },
     {
         id : 7,
@@ -60,6 +60,6 @@ export const allNav = [
         title : 'Live Chat',
         icon : <IoChatbubbles/>,
         role : 'admin',
-        path : '/admin/dashboard/chat-seller'
+        path : '/admin/dashboard/chat-sellers'
     },
 ]
