@@ -117,5 +117,5 @@ export const allNav = [
         icon : <AiOutlineDashboard/>,
         role : 'seller',
         path : '/seller/dashboard/chat-support'
-    },
+    }
 ]
