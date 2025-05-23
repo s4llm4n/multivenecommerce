@@ -5,7 +5,7 @@ import { FaEdit, FaTrash, FaImage } from 'react-icons/fa';
 import { IoMdCloseCircle } from "react-icons/io";
 import { PropagateLoader } from 'react-spinners';
 import { overrideStyle } from '../../utils/utils';
-import { categoryAdd, messageClear } from '../../store/Reducers/categoryReducer';
+import { categoryAdd, messageClear,get_category,updateCategory } from '../../store/Reducers/categoryReducer';
 import { useDispatch, useSelector } from 'react-redux';
 import toast from 'react-hot-toast';
 import Search from '../components/Search';
@@ -14,7 +14,7 @@ const Category = () => {
 
 
         const dispatch = useDispatch()
-        const {loader,successMessage,errorMessage} = useSelector(state=> state.category)
+        const {loader,successMessage,errorMessage,categorys} = useSelector(state=> state.category)
 
 
         const [currentPage, setCurrentPage] = useState(1)
@@ -22,6 +22,8 @@ const Category = () => {
         const [parPage, setParPage] = useState(5)
         const [show, setShow] = useState(false)
         const [imageShow, setImage] = useState('')
+        const [isEdit, setIsEdit] = useState(false)
+        const [editId, setEditId] = useState(null)
 
         const [state, setState] = useState({
             name: '',
@@ -40,9 +42,13 @@ const Category = () => {
             }
         }
 
-        const add_category = (e) => {
+        const addOrUpdateCategory = (e) => {
             e.preventDefault()
-            dispatch(categoryAdd(state))
+            if (isEdit) {
+                dispatch(updateCategory({ id:editId, ...state }))
+            } else {
+                dispatch(categoryAdd(state))
+            }
             // console.log(state)
         }
 
@@ -57,17 +63,40 @@ const Category = () => {
                             image: ''
                         })
                         setImage('')
+                        setIsEdit(false)
+                        setEditId(null)
+
                     }
+
                     if (errorMessage) {
                         toast.error(errorMessage)
                         dispatch(messageClear())
                     }
-                },[successMessage,errorMessage])
+                },[successMessage,errorMessage,dispatch])
 
 
                 useEffect(() => {
+                    const obj = {
+                        parPage: parseInt(parPage),
+                        page: parseInt(currentPage),
+                        searchValue
+                    }
+                    dispatch(get_category(obj))
 
                 },[searchValue, currentPage, parPage])
+
+    // Handle Edit Button            
+
+    const handleEdit = (category) => {
+        setState({
+            name: category.name,
+            image: category.image
+        })
+        setImage(category.image)
+        setEditId(category._id)
+        setIsEdit(true)
+        setShow(true)
+    }
 
     return (
         <div className='px-2 lg:px-7 pt-5'>
@@ -96,13 +125,13 @@ const Category = () => {
 
                         <tbody>
                             {
-                                [1,2,3,4,5].map((d, i) => <tr key={i}>
-                                    <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{d}</td>
-                                    <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'><img className='w-[45px] h-[45px]' src={`http://localhost:3000/images/category/${d}.jpg`} alt=''/></td>
-                                    <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>Tshirt</td>
+                                categorys.map((d, i) => <tr key={i}>
+                                    <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{i+1}</td>
+                                    <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'><img className='w-[45px] h-[45px]' src={d.image} alt=''/></td>
+                                    <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>{d.name}</td>
                                     <td scope='row' className='py-1 px-4 font-medium whitespace-nowrap'>
                                         <div className='flex justify-start items-center gap-4'>
-                                        <Link className='p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50'><FaEdit/></Link>
+                                        <Link className='p-[6px] bg-yellow-500 rounded hover:shadow-lg hover:shadow-yellow-500/50' onClick={() => handleEdit(d)}><FaEdit/></Link>
                                         <Link className='p-[6px] bg-red-500 rounded hover:shadow-lg hover:shadow-red-500/50'><FaTrash/></Link>
                                         </div>
                                         </td>      
@@ -130,14 +159,14 @@ const Category = () => {
                         <div className='bg-[#6a5fdf] h-screen lg:h-auto px-3 py-2 lg:rounded-md text-[#d0d2d6]'>
                             
                             <div className='flex justify-between items-center mb-4'>
-                            <h1 className='text-[#d0d2d6] font-semibold text-xl mb-4 w-full text-center'>Add Category</h1>
+                            <h1 className='text-[#d0d2d6] font-semibold text-xl mb-4 w-full text-center'> { isEdit ? 'Edit Category' : 'Add Category' } Add Category</h1>
 
                             <div onClick={() => setShow(false)} className='block lg:hidden'>
                             <IoMdCloseCircle/>
                             </div>
                             </div>
 
-                            <form onSubmit={add_category}>
+                            <form onSubmit={addOrUpdateCategory}>
                                 <div className='flex flex-col w-full gap-1 mb-3'>
                                     <label htmlFor='name'>Category Name</label>
                                     <input value={state.name} onChange={(e)=>setState({...state,name : e.currentTarget.value})} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#ffffff] border border-slate-700 rounded-md text-[#000000]' type='text' id='name' name='category_name' placeholder='Category Name' />
@@ -158,7 +187,7 @@ const Category = () => {
                                 <div className='mt-4'>
                                     <button disabled={loader ? true : false} className='bg-red-800 w-full hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3'>
                                         {
-                                            loader ? <PropagateLoader color='#fff' cssOverride={overrideStyle}/> : 'Add Category'
+                                            loader ? <PropagateLoader color='#fff' cssOverride={overrideStyle}/> : isEdit ? 'Update Category' : 'Add Category'
                                         }
                                     </button>
                                 </div>                
