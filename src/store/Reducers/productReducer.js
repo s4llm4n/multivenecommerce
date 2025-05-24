@@ -3,15 +3,12 @@ import api from '../../api/api';
 
 export const add_product = createAsyncThunk(
     'product/add_product', 
-    async({ name,image },{rejectWithValue, fulfillWithValue}) => {
-        try {
+    async(product,{rejectWithValue, fulfillWithValue}) => {
 
-            const formData = new FormData()
-            formData.append('name', name)
-            formData.append('image', image)
-            const {data} = await api.post('/category-add',formData,
+        try {
+            const {data} = await api.post('/product-add',product,
                 {withCredentials: true})
-                // console.log(data)
+                console.log(data)
                 return fulfillWithValue(data)
         } catch (error) {
             // console.log(error.response.data)
