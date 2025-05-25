@@ -4,7 +4,10 @@ import { IoImages } from "react-icons/io5";
 import { IoMdCloseCircle } from "react-icons/io";
 import { useDispatch, useSelector } from 'react-redux';
 import { get_category } from '../../store/Reducers/categoryReducer';
-import { add_product} from '../../store/Reducers/productReducer';
+import { add_product, messageClear} from '../../store/Reducers/productReducer';
+import { overrideStyle } from '../../utils/utils';
+import toast from 'react-hot-toast';
+import { PropagateLoader } from 'react-spinners';
 
 const AddProduct = () => {
     const dispatch = useDispatch()
@@ -23,9 +26,9 @@ const AddProduct = () => {
         name: '',
         description: '',
         discount: '',
-        price: '',
-        brand: '',
-        stock: ''
+        price: "",
+        brand: "",
+        stock: ""
     })
 
     const inputHandle = (e) => {
@@ -68,6 +71,29 @@ const AddProduct = () => {
     }
     // console.log(images)
     // console.log(imageShow)
+
+    useEffect(() => {
+        if (successMessage) {
+            toast.success(successMessage)
+            dispatch(messageClear())
+            setState({
+                name: "",
+                description: '',
+                discount:'',
+                price: "",
+                brand: "",
+                stock: ""
+            })
+            setImageShow([])
+            setImages([])
+            setCategory('')
+        }
+        if (errorMessage) {
+            toast.error(errorMessage)
+            dispatch(messageClear())
+        }
+    },[successMessage,errorMessage])
+
 
     const changeImage = (img, index) => {
         if (img) {
@@ -196,9 +222,9 @@ const AddProduct = () => {
                             </div>
 
                             <div className='flex'>
-                            <button disabled={loader ? true : false} className='bg-red-500 w-full hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3'>
+                            <button disabled={loader ? true : false} className='bg-red-500 w-[280px] hover:shadow-red-300/50 hover:shadow-lg text-white rounded-md px-7 py-2 mb-3'>
                                         {
-                                            loader ? <PropagateLoader color='#fff' cssOverride={overrideStyle}/> : isEdit ? 'Update Category' : 'Add Category'
+                                            loader ? <PropagateLoader color='#fff' cssOverride={overrideStyle}/> : 'Add Category'
                                         }
                                     </button>
                             </div>
