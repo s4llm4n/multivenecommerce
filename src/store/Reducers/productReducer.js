@@ -20,10 +20,11 @@ export const add_product = createAsyncThunk(
 // End Method
 
 export const get_products = createAsyncThunk(
-    'category/get_products', 
+    'product/get_products', 
     async({ parPage,page,searchValue },{rejectWithValue, fulfillWithValue}) => {
         try {
-            const {data} = await api.get(`/products-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
+            const {data} = await api.get(`/products-get?page=${page}&&searchValue=${searchValue}&&
+                parPage=${parPage}`,
                 {withCredentials: true})
                 console.log(data)
                 return fulfillWithValue(data)

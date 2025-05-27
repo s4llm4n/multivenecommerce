@@ -7,7 +7,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { get_products } from '../../store/Reducers/productReducer';
 
 const Products = () => {
-
+ 
     const dispatch = useDispatch()
     const {products,totalProduct} = useSelector(state=> state.product)
 
