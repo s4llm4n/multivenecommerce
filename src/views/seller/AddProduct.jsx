@@ -146,7 +146,7 @@ const AddProduct = () => {
                     <h1 className='text-[#d0d2d6] text-xl font-semibold'>
                         Add Product
                     </h1>
-                    <Link to='/seller/dashboard/products' className='bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-sm px-7 py-2 my-2'>All Product</Link>
+                    <Link to='/seller/dashboard/product' className='bg-blue-500 hover:shadow-blue-500/50 hover:shadow-lg text-white rounded-sm px-7 py-2 my-2'>All Product</Link>
                 </div>
                 <div>
                     <form onSubmit={add}>
