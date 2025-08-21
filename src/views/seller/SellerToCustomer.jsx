@@ -9,6 +9,7 @@ const SellerToCustomer = () => {
     const [show, setShow] = useState(false)
     const sellerId = 65
     const {userInfo } = useSelector(state => state.auth)
+    const {customers } = useSelector(state => state.chat)
 
     const dispatch = useDispatch()
 
