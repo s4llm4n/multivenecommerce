@@ -14,7 +14,7 @@ const SellerToCustomer = () => {
                     <div className={`w-[280px] h-full absolute z-10 ${show ? '-left-[16px]' : '-left-[336px]'} md:left-0 md:relative transition-all `}>
                         <div className='w-full h-[calc(100vh-177px)] bg-[#9e97e9] md:bg-transparent overflow-y-auto'>
                             <div className='flex text-xl justify-between items-center p-4 md:p-0 md:px-3 md:pb-3 text-white'>
-                                <h2>Customer</h2>
+                                <h2>Custdddddddomers</h2>
                                 <span onClick={() => setShow(!show)} className='block cursor-pointer md:hidden'><IoMdClose/></span>
                             </div>
 
