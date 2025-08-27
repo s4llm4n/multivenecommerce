@@ -13,6 +13,35 @@ export const get_customers = createAsyncThunk(
         }
     }
 )
+// End Method
+
+export const get_customer_message = createAsyncThunk(
+    'chat/get_customer_message', 
+    async(customerId,{rejectWithValue, fulfillWithValue}) => {
+        try {
+            const {data} = await api.get(`/chat/seller/get-customer-message/${customerId}`,{withCredentials: true})
+                // console.log(data)
+                return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+// End Method
+
+export const send_message = createAsyncThunk(
+    'chat/send_message', 
+    async(info,{rejectWithValue, fulfillWithValue}) => {
+        try {
+            const {data} = await api.post(`/chat/seller/send-message-to-customer`,info ,{withCredentials: true})
+                // console.log(data)
+                return fulfillWithValue(data)
+        } catch (error) {
+            return rejectWithValue(error.response.data)
+        }
+    }
+)
+// End Method
 
 
 export const chatReducer = createSlice({
@@ -20,7 +49,7 @@ export const chatReducer = createSlice({
     initialState:{
         successMessage: '',
         errorMessage: '',
-        customer: [],
+        customers: [],
         messages : [],
         activeCustomer: [],
         activeSeller: [],
@@ -44,6 +73,10 @@ export const chatReducer = createSlice({
          
         .addCase(get_customers.fulfilled, (state, { payload }) => {
             state.customers = payload.customers
+        })
+        .addCase(get_customer_message.fulfilled, (state, { payload }) => {
+            state.messages = payload.messages
+            state.currentCustomer = payload.currentCustomer
         })
     }
 })
