@@ -40,7 +40,7 @@ const SellerToCustomer = () => {
 
         useEffect(() => {
             if (successMessage) {
-                socket.emit('send_seller_messages',messages[messages.length - 1])
+                socket.emit('send_seller_message',messages[messages.length - 1])
                 dispatch(messageClear())
             }
         },[successMessage])
