@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useRef } from 'react';
 import { IoMdClose } from "react-icons/io";
 import { FaList } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,6 +8,8 @@ import { socket } from '../../utils/utils';
 import toast from 'react-hot-toast';
 
 const SellerToCustomer = () => {
+
+    const scrollRef = useRef()
 
     const [show, setShow] = useState(false)
     const sellerId = 65
@@ -67,6 +69,10 @@ const SellerToCustomer = () => {
         }
     },[receiverMessage])
 
+    useEffect(() => {
+        scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+    },[messages])
+
     return (
         <div className='px-2 lg:px-7 py-5'>
             <div className='w-full bg-[#6a5fdf] px-4 py-4 rounded-md h-[calc(100vh-140px)]'>
@@ -121,9 +127,9 @@ const SellerToCustomer = () => {
                                     customerId ? messages.map((m,i) => {
                                         if (m.senderId === customerId) {
                                             return (
-                                                <div className='w-full flex justify-start items-center'>
-                                <div className='flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]'>
-                                    <div>
+                                                <div key={i} ref={scrollRef} className='w-full flex justify-start items-center'>
+                                                <div className='flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]'>
+                                            <div>
                                         <img  className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src='http://localhost:3001/images/demo.jpg' alt=''/>
                                     </div>
                                     <div className='flex justify-center items-start flex-col w-full bg-blue-500 shadow-lg shadow-blue-500/50 text-white py-1 px-2 rounded-sm'>
@@ -134,7 +140,7 @@ const SellerToCustomer = () => {
                                             )
                                         } else {
                                             return ( 
-                                                <div className='w-full flex justify-end items-center'>
+                                            <div key={i} ref={scrollRef} className='w-full flex justify-end items-center'>
                                 <div className='flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]'>
                                     <div className='flex justify-center items-start flex-col w-full bg-red-500 shadow-lg shadow-red-500/50 text-white py-1 px-2 rounded-sm'>
                                         <span>{m.message}</span>
