@@ -115,6 +115,29 @@ export const profile_info_add = createAsyncThunk(
         }
     }
 
+    // End Method
+
+
+    export const logout = createAsyncThunk(
+    'auth/logout', 
+    async({navigate,role},{rejectWithValue, fulfillWithValue}) => {
+        try {
+            const {data} = await api.post('/logout',{withCredentials: true})
+            localStorage.removeItem('accessToken',data.token)
+            if (role === 'admin') {
+                navigate('/admin/login')
+            } else {
+                navigate('/login')
+            }
+            return fulfillWithValue(data)
+        } catch (error) {
+            // console.log(error.response.data)
+            return rejectWithValue(error.response.data)
+        }
+        }
+    )
+    // End Method
+
 
 export const authReducer = createSlice({
     name: 'auth',
