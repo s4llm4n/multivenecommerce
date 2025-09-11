@@ -51,7 +51,7 @@ const SellerToCustomer = () => {
         },[successMessage])
 
 
-        useEffect(() => {
+    useEffect(() => {
         socket.on('customer_message', msg => {
             setReceiverMessage(msg)
         })
