@@ -109,6 +109,7 @@ export const sellerReducer = createSlice({
     },
     extraReducers: (builder) => {
         builder 
+
         .addCase(get_seller_request.fulfilled, (state, { payload }) => {
             state.sellers = payload.sellers;
             state.totalSeller = payload.totalSeller;
@@ -119,6 +120,10 @@ export const sellerReducer = createSlice({
         .addCase(seller_status_update.fulfilled, (state, { payload }) => {
             state.seller = payload.seller;
             state.successMessage = payload.message;
+        })
+        .addCase(get_active_sellers.fulfilled, (state, { payload }) => {
+            state.sellers = payload.sellers;
+            state.totalSeller = payload.totalSeller;
         })
     
 
