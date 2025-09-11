@@ -121,8 +121,9 @@ export const profile_info_add = createAsyncThunk(
     export const logout = createAsyncThunk(
     'auth/logout', 
     async({navigate,role},{rejectWithValue, fulfillWithValue}) => {
+
         try {
-            const {data} = await api.post('/logout',{withCredentials: true})
+            const {data} = await api.get('/logout',{withCredentials: true})
             localStorage.removeItem('accessToken',data.token)
             if (role === 'admin') {
                 navigate('/admin/login')
