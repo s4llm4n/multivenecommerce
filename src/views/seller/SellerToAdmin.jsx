@@ -1,13 +1,14 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { get_admin_message, get_seller_message, get_sellers, send_message_seller_admin, updateAdminMessage } from '../../store/Reducers/chatReducer';
+import { get_admin_message, get_seller_message, get_sellers, send_message_seller_admin, updateAdminMessage,messageClear } from '../../store/Reducers/chatReducer';
 import { socket } from '../../utils/utils';
 
 const SellerToAdmin = () => {
 
+    const scrollRef = useRef()
     const dispatch = useDispatch()
     const [text,setText] = useState('')
-    const {sellers,activeSeller,seller_admin_message,currentSeller} = useSelector(state => state.chat)
+    const {sellers,activeSeller,seller_admin_message,currentSeller,successMessage} = useSelector(state => state.chat)
 
     const {userInfo} = useSelector(state => state.auth)
     
@@ -32,6 +33,20 @@ const SellerToAdmin = () => {
                 })
             },[])
 
+
+        useEffect(() => {
+            if (successMessage) {
+                socket.emit('send_message_seller_to_admin',seller_admin_message[seller_admin_message.length - 1])
+                dispatch(messageClear())
+            }
+        },[successMessage])
+
+
+        useEffect(() => {
+            scrollRef.current?.scrollIntoView({ behavior: 'smooth' })
+        },[seller_admin_message])  
+
+
     return (
         <div className='px-2 lg:px-7 py-5'>
             <div className='w-full bg-[#6a5fdf] px-4 py-4 rounded-md h-[calc(100vh-140px)]'>
@@ -54,7 +69,7 @@ const SellerToAdmin = () => {
                                     seller_admin_message.map((m, i) => {
                                         if (userInfo._id === m.senderId) {
                                             return (
-                                                <div key={i} className='w-full flex justify-start items-center'>
+                                                <div ref={scrollRef} key={i} className='w-full flex justify-start items-center'>
                                                 <div className='flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]'>
                                                     <div>
                                                         <img  className='w-[38px] h-[38px] border-2 border-white rounded-full max-w-[38px] p-[3px]' src='http://localhost:3000/images/demo.jpg' alt=''/>
@@ -67,7 +82,7 @@ const SellerToAdmin = () => {
                                             )
                                         } else {
                                             return (
-                                                <div key={i} className='w-full flex justify-end items-center'>
+                                                <div ref={scrollRef} key={i} className='w-full flex justify-end items-center'>
                                                 <div className='flex justify-start items-start gap-2 md:px-3 py-2 max-w-full lg:max-w-[85%]'>
                                                     <div className='flex justify-center items-start 
                                                     flex-col w-full bg-red-500 shadow-lg shadow-red-500/50 
