@@ -49,7 +49,6 @@ const Orders = () => {
                                 <div className='py-3 w-[18%] font-bold'>Action</div>
                                 <div className='py-3 w-[9%] font-bold'><LuCircleArrowDown/></div>
                             </div>
-
                         </div>
 
 

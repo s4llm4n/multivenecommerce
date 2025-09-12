@@ -13,7 +13,6 @@ export const get_admin_orders = createAsyncThunk(
         }
     }
 )
-
 // End Method
 
 export const OrderReducer = createSlice({
@@ -23,7 +22,7 @@ export const OrderReducer = createSlice({
         errorMessage: '',
         totalOrder: 0,
         order: {},
-        myOrders: 0,
+        myOrders: [],
     },
     reducers : {
 
