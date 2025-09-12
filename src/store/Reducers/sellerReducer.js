@@ -5,8 +5,7 @@ export const get_seller_request = createAsyncThunk(
     'seller/get_seller_request', 
     async({ parPage,page,searchValue },{rejectWithValue, fulfillWithValue}) => {
         try {
-            const {data} = await api.get(`/request-seller-get?page=${page}&&
-                searchValue=${searchValue}&&parPage=${parPage}`,
+            const {data} = await api.get(`/request-seller-get?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
                 {withCredentials: true})
                 console.log(data)
                 return fulfillWithValue(data)
@@ -77,8 +76,7 @@ export const get_active_sellers = createAsyncThunk(
     'seller/get_active_sellers', 
     async({ parPage,page,searchValue },{rejectWithValue, fulfillWithValue}) => {
         try {
-            const {data} = await api.get(`/get-sellers?page=${page}&&
-                searchValue=${searchValue}&&parPage=${parPage}`,
+            const {data} = await api.get(`/get-sellers?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
                 {withCredentials: true})
                 return fulfillWithValue(data)
         } catch (error) {
