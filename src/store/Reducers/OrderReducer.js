@@ -5,8 +5,7 @@ export const get_admin_orders = createAsyncThunk(
     'orders/get_admin_orders', 
     async({ parPage,page,searchValue },{rejectWithValue, fulfillWithValue}) => {
         try {
-            const {data} = await api.get(`/admin/orders?page=${page}&&
-                searchValue=${searchValue}&&parPage=${parPage}`,
+            const {data} = await api.get(`/admin/orders?page=${page}&&searchValue=${searchValue}&&parPage=${parPage}`,
                 {withCredentials: true})
                 return fulfillWithValue(data)
         } catch (error) {
@@ -35,12 +34,12 @@ export const OrderReducer = createSlice({
 
     },
     extraReducers: (builder) => {
-        // builder 
+        builder 
 
-        // .addCase(get_seller_request.fulfilled, (state, { payload }) => {
-        //     state.sellers = payload.sellers;
-        //     state.totalSeller = payload.totalSeller;
-        // })
+        .addCase(get_admin_orders.fulfilled, (state, { payload }) => {
+            state.myOrders = payload.orders;
+            state.totalOrder = payload.totalOrder;
+        })
     }
 })
 
