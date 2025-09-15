@@ -53,6 +53,9 @@ export const OrderReducer = createSlice({
             state.myOrders = payload.orders;
             state.totalOrder = payload.totalOrder;
         })
+        .addCase(get_admin_order.fulfilled, (state, { payload }) => {
+            state.order = payload.order;
+        })
     }
 })
 
