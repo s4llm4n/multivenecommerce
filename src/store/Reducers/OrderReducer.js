@@ -44,7 +44,7 @@ export const admin_order_status_update = createAsyncThunk(
 
 
 export const get_seller_orders = createAsyncThunk(
-    'orders/get_seller_orders', 
+    'orders/get_seller_orders',
     async({ parPage,page,searchValue,sellerId },{rejectWithValue, fulfillWithValue}) => {
         try {
             const {data} = await api.get(`/seller/orders/${sellerId}?page=${page}&searchValue=${searchValue}&parPage=${parPage}`,
@@ -90,6 +90,10 @@ export const OrderReducer = createSlice({
         })
         .addCase(admin_order_status_update.fulfilled, (state, { payload }) => {
             state.successMessage = payload.message;
+        })
+        .addCase(get_seller_orders.fulfilled, (state, { payload }) => {
+            state.myOrders = payload.orders;
+            state.totalOrder = payload.totalOrder;
         })
     }
 })
