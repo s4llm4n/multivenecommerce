@@ -119,7 +119,7 @@ const SellerDetails = () => {
                         <select value={status} onChange={(e)=>setStatus(e.target.value)} className='px-4 py-2 focus:border-indigo-500 outline-none bg-[#6a5fdf] border border-slate-700 rounded-md text-[#d0d2d6]'name='' id='' >
                             <option value=''>--Select Status--</option>
                             <option value='active'>Active</option>
-                            <option value='deactivate'>Deactivate</option>
+                            <option value='deactive'>Deactive</option>
                         </select>
                         <button className='bg-red-500 w-[170px] hover:shadow-red-500/40 hover:shadow-md text-white rounded-md px-7 py-2'>
                             Submit
