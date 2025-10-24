@@ -20,9 +20,8 @@ const Profile = () => {
     })
 
     const dispatch = useDispatch()
+    
     const { userInfo,loader,successMessage } = useSelector(state => state.auth)
-
-    const status = 'active'
 
     useEffect(() => {
         if (successMessage) {
